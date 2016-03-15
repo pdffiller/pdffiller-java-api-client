@@ -1,0 +1,21 @@
+.metadata
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.metadata
+.classpath
+
+# Build target
+target/
+
+.DS_Store
+
+# Eclipse Core
+.project
+
+
