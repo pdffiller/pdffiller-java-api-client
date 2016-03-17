@@ -24,7 +24,7 @@ After the client libarary is installed/deployed, you can use it in your Maven pr
 ```xml
 <dependency>
   <groupId>com.pdffiller</groupId>
-  <artifactId>pdffiller-java-client</artifactId>
+  <artifactId>pdffiller-java-api-client</artifactId>
   <version>1.0.0</version>
 </dependency>
 ```
