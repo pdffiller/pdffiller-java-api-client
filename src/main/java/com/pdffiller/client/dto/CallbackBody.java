@@ -1,5 +1,7 @@
 package com.pdffiller.client.dto;
 
+import com.pdffiller.client.api.Callback;
+
 public class CallbackBody {
   private String event_id;
   private String callback_url;
@@ -21,6 +23,14 @@ public class CallbackBody {
     return document_id;
   }
   public void setDocumentId(int document_id) {
+    this.document_id = document_id;
+  }
+
+  public CallbackBody() {}
+
+  public CallbackBody(String event_id, String callback_url, int document_id) {
+    this.event_id = event_id;
+    this.callback_url = callback_url;
     this.document_id = document_id;
   }
 }

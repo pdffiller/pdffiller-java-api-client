@@ -1,5 +1,7 @@
 package com.pdffiller.client.dto;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,7 +163,9 @@ public class SignatureRequestBody {
     }
     
     public enum AccessEnum {
+      @SerializedName("full")
       FULL("full"),
+      @SerializedName("signature")
       SIGNATURE("signature");
       private String value;
      

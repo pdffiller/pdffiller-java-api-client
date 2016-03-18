@@ -139,7 +139,7 @@ public class SignatureRequest {
     List<Params> queryParams = null;
     HashMap<String, String> headerParams = null;
     String body = null;
-    String method = "POST";
+    String method = "GET";
             
     // verify the required parameter 'signatureRequestId' is set
     if (signatureRequestId == null) {
@@ -164,7 +164,7 @@ public class SignatureRequest {
   public String remindRecipient (Long signatureRequestId, Long recipientId) throws PdfFillerAPIException {
     List<Params> queryParams = null;
     HashMap<String, String> headerParams = null;
-    String body = null;
+    String body = "";
     String method = "PUT";
     
      // verify the required parameter 'signatureRequestId' is set
