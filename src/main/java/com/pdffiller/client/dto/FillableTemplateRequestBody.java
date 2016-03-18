@@ -1,11 +1,18 @@
 package com.pdffiller.client.dto;
 
+import com.pdffiller.client.api.FillableTemplate;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class FillableTemplateRequestBody {
   private int document_id;
   private Map<String,String> fillable_fields = new HashMap<String,String>();
+
+  public FillableTemplateRequestBody(int document_id) {
+    this.document_id = document_id;
+  }
+  public FillableTemplateRequestBody() {}
 
   /**
    * @param key

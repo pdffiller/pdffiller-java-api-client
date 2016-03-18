@@ -69,7 +69,7 @@ public class Callback {
   public String updateCallback(int callbackId, CallbackBody body) throws PdfFillerAPIException {         
     List<Params> queryParams = null;
     HashMap<String, String> headerParams = null;
-    String method = "UPDATE";
+    String method = "PUT";
     if (body == null) {
       throw new PdfFillerAPIException(400, "Missing the required parameter 'body' when calling addCallback");
     }

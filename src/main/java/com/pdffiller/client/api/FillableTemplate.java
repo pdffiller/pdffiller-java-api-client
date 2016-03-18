@@ -9,7 +9,7 @@ import com.pdffiller.client.exception.PdfFillerAPIException;
 
 public class FillableTemplate {
   private ApiClient apiClient;
-  private String API_PATH = "/fillable_request"; 
+  private String API_PATH = "/fillable_template";
  
   public FillableTemplate(ApiClient apiClient) {
     this.apiClient = apiClient;

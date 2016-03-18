@@ -1,5 +1,7 @@
 package com.pdffiller.client.dto;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.*;
 
 public class FillRequestBody   {
@@ -11,23 +13,37 @@ public class FillRequestBody   {
    private List<NotificationEmail> notification_emails = new ArrayList<NotificationEmail>();
    private AccessEnum access = AccessEnum.FULL;
 
-   public enum AccessEnum {
-	 FULL("full"),
-	 SIGNATURE("signature");
-	 private String value;
-	 AccessEnum(String value) {
-	   this.value = value;
-	 }
+    public FillRequestBody(
+            Integer document_id,
+            List<NotificationEmail> notification_emails) {
+        this.document_id = document_id;
+        this.notification_emails = notification_emails;
+    }
+
+    public FillRequestBody() {}
+
+    public enum AccessEnum {
+        @SerializedName("full")
+        FULL("full"),
+        @SerializedName("signature")
+        SIGNATURE("signature");
+        private String value;
+
+        AccessEnum(String value) {
+        this.value = value;
+        }
    }
 
    public enum StatusEnum {
-	 PUBLIC("public"),
-	 PRIVATE("private");
-	 private String value;
-	 StatusEnum(String value) {
-	   this.value = value;
-	 }
-   }
+       @SerializedName("public")
+        PUBLIC("public"),
+       @SerializedName("private")
+        PRIVATE("private");
+        private String value;
+        StatusEnum(String value) {
+        this.value = value;
+        }
+        }
    
    public List<NotificationEmail> addNotificationEmail(String email, String name){
      NotificationEmail notificationEmail = new NotificationEmail();
@@ -120,8 +136,15 @@ public class FillRequestBody   {
    public static class NotificationEmail {
      private String email;
      private String name;
-     
-     public String getEmail() {
+
+     public NotificationEmail(String email, String name) {
+       this.email = email;
+       this.name = name;
+      }
+
+     public NotificationEmail() {}
+
+       public String getEmail() {
        return email;
      }
      public void setEmail(String email) {

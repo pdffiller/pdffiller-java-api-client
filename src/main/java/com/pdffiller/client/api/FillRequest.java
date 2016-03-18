@@ -77,7 +77,7 @@ public class FillRequest {
     if (body == null) {
       throw new PdfFillerAPIException(400, "Missing the required parameter 'body' when calling updateFillRequest");
     }
-    return apiClient.call(API_PATH, method, queryParams, headerParams, body);    
+    return apiClient.call(API_PATH + "/" + body.getDocumentId(), method, queryParams, headerParams, body);
   }
   
   /**
