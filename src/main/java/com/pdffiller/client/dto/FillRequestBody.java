@@ -14,36 +14,36 @@ public class FillRequestBody   {
    private AccessEnum access = AccessEnum.FULL;
 
     public FillRequestBody(
-            Integer document_id,
-            List<NotificationEmail> notification_emails) {
-        this.document_id = document_id;
-        this.notification_emails = notification_emails;
+      Integer document_id,
+      List<NotificationEmail> notification_emails) {
+      this.document_id = document_id;
+      this.notification_emails = notification_emails;
     }
 
     public FillRequestBody() {}
 
     public enum AccessEnum {
-        @SerializedName("full")
-        FULL("full"),
-        @SerializedName("signature")
-        SIGNATURE("signature");
-        private String value;
+      @SerializedName("full")
+      FULL("full"),
+      @SerializedName("signature")
+      SIGNATURE("signature");
+      private String value;
 
-        AccessEnum(String value) {
+      AccessEnum(String value) {
         this.value = value;
-        }
+      }
    }
 
    public enum StatusEnum {
-       @SerializedName("public")
-        PUBLIC("public"),
-       @SerializedName("private")
-        PRIVATE("private");
-        private String value;
-        StatusEnum(String value) {
-        this.value = value;
-        }
-        }
+     @SerializedName("public")
+     PUBLIC("public"),
+     @SerializedName("private")
+     PRIVATE("private");
+     private String value;
+     StatusEnum(String value) {
+       this.value = value;
+     }
+   }
    
    public List<NotificationEmail> addNotificationEmail(String email, String name){
      NotificationEmail notificationEmail = new NotificationEmail();

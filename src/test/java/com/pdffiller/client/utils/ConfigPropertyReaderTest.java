@@ -1,6 +1,6 @@
 package com.pdffiller.client.utils;
 
-import junit.framework.Assert;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -12,9 +12,9 @@ public class ConfigPropertyReaderTest {
 
   @Test
   public void testReadPropertyFile() throws PdfFillerAPIException {
-	String propertyFile = "pdffiller.config.properties";
-	ConfigProperties props = ConfigPropertyReader.getPropValues(propertyFile);
-	Assert.assertEquals(props.getClientId(),"CLIENT_ID");
-	Assert.assertEquals(props.getClientSecret(),"CLIENT_SECRET");	
+    String propertyFile = "pdffiller.config.properties";
+    ConfigProperties props = ConfigPropertyReader.getPropValues(propertyFile);
+    assertTrue(props.getClientId() == "CLIENT_ID");
+    assertTrue(props.getClientSecret() == "CLIENT_SECRET"); 
   }
 }
