@@ -36,7 +36,7 @@ public class Document {
    * @param body send file url info or file content string
    * @return CreateDocumenTemplateResponse
    */
-  public DocumentInfo createDocumentTemplate(DocumentUploadRequest body) throws PdfFillerAPIException {         
+  public DocumentInfo createDocumentTemplate(DocumentUploadRequest body) throws PdfFillerAPIException {
     List<Params> queryParams = null;
     HashMap<String, String> headerParams = null;
     String method = "POST";
@@ -49,7 +49,7 @@ public class Document {
   /**
    * Create a new document template
    * Creates a new document template from url.
-   * @param body send file url info or file content string
+   * @param documentId document id
    * @return CreateDocumenTemplateResponse
    */
   public DocumentInfo getDocumentInfo (long documentId) throws PdfFillerAPIException {           
