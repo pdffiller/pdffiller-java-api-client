@@ -12,17 +12,18 @@ import com.pdffiller.client.utils.StringUtils;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
- 
+
 /**
  * @author gene@pdffiller.com (Eugene Gorelik)
  * Main PDFFiller client class
@@ -104,17 +105,15 @@ public class PdfFillerAPIClient implements ApiClient {
    * @param queryParams The query parameters
    * @param body The request body object - if it is not binary, otherwise null
    * @param headerParams The header parameters
-   * @param accept The request's Accept header
-   * @param contentType The request's Content-Type header
    * @param returnType type of the return parameter
    * @return The response body in type of string
    */
-  public <T> T call(String path, String method, List<Params> queryParams, HashMap<String, String> headerParams, Object body, Class<?> returnType) throws PdfFillerAPIException {
+  public <T> T call(String path, String method, List<Params> queryParams, HashMap<String, String> headerParams, Object body, Class<?> returnType, boolean jsonParse) throws PdfFillerAPIException {
     if (!isAuthenticated() && path != AUTHENTICATION_PATH){
        throw new PdfFillerAPIException(401,"Client is not authenticated");
     }   
 
-    HttpResponse response = getApiResponse(path, method, queryParams, body, headerParams);
+    HttpResponse response = getApiResponse(path, method, queryParams, body, headerParams, jsonParse);
     int statusCode = response.getCode();
     Map<String, List<String>> responseHeaders = response.getHeaders();
     String responseBody = response.getBody();
@@ -136,6 +135,10 @@ public class PdfFillerAPIClient implements ApiClient {
       responseHeaders,
       responseBody);    
   }
+
+  public <T> T call(String path, String method, List<Params> queryParams, HashMap<String, String> headerParams, Object body, Class<?> returnType) throws PdfFillerAPIException {
+    return call(path, method, queryParams, headerParams, body, returnType, true);
+  }
   
   /**
    * Call API by sending HTTP request with the given options.
@@ -145,8 +148,6 @@ public class PdfFillerAPIClient implements ApiClient {
    * @param queryParams The query parameters
    * @param body The request body object - if it is not binary, otherwise null
    * @param headerParams The header parameters
-   * @param accept The request's Accept header
-   * @param contentType The request's Content-Type header
    * @return Json string representing the response HTTP body
    */
   public String call(String path, String method, List<Params> queryParams, HashMap<String, String> headerParams, Object body) throws PdfFillerAPIException {
@@ -154,7 +155,7 @@ public class PdfFillerAPIClient implements ApiClient {
     return jsonBody;
   }
    
-  private HttpResponse getApiResponse(String path, String method, List<Params> queryParams, Object body, Map<String, String> headerParams) throws PdfFillerAPIException {
+  private HttpResponse getApiResponse(String path, String method, List<Params> queryParams, Object body, Map<String, String> headerParams, boolean jsonParse) throws PdfFillerAPIException {
 	String querystring = "";
 	if (queryParams != null){
       StringBuilder b = new StringBuilder();
@@ -170,21 +171,23 @@ public class PdfFillerAPIClient implements ApiClient {
       querystring = b.substring(0, b.length() - 1);
     }
     
-	if (headerParams != null && headerParams.size() > 0){
-	  for (String key : headerParams.keySet()) {
-	      if (!headerMap.containsKey(key)) {
-	        headerMap.put(key, headerParams.get(key));
-	      }
-	    }
-	}  
-
+    if (headerParams != null && headerParams.size() > 0){
+      for (String key : headerParams.keySet()) {
+        if (!headerMap.containsKey(key)) {
+          headerMap.put(key, headerParams.get(key));
+        }
+      }
+    }
     HttpResponse response = null;
-    String jsonStr = json.serialize(body);
-
+    String jsonStr = jsonParse ? json.serialize(body) : body.toString();
     if ("GET".equals(method)) {
       response = sendGet(API_URL + '/' + API_VERSION + path + querystring);
     } else if ("POST".equals(method)) {
-      response = sendPost(jsonStr,API_URL + '/' + API_VERSION + path + querystring);    
+      if (jsonParse) {
+        response = sendPost(jsonStr, API_URL + '/' + API_VERSION + path + querystring);
+      } else {
+        response = sendPost((byte[])body, API_URL + '/' + API_VERSION + path + querystring);
+      }
     } else if ("PUT".equals(method)) {
       response = sendPut(jsonStr,API_URL + '/' + API_VERSION + path + querystring);    
     } else if ("DELETE".equals(method)) {
@@ -210,7 +213,7 @@ public class PdfFillerAPIClient implements ApiClient {
   }
   
   /**
-   * @param API url
+   * @param url destination url
    * @return HttpsURLConnection
    * @throws PdfFillerAPIException
    */
@@ -238,8 +241,8 @@ public class PdfFillerAPIClient implements ApiClient {
 
  
   /**
-   * @param url
-   * @return
+   * @param url destination url
+   * @return response from the endpoint
    * @throws PdfFillerAPIException
    */
   private HttpResponse sendGet(String url) throws PdfFillerAPIException {
@@ -296,7 +299,7 @@ public class PdfFillerAPIClient implements ApiClient {
    * @throws PdfFillerAPIException
    * @throws IOException 
    */
-  private HttpResponse sendPost(String body, String url) throws PdfFillerAPIException {
+  private HttpResponse sendPost(byte[] body, String url) throws PdfFillerAPIException {
     String method = "POST";
 	HttpResponse httpResponse = new HttpResponse();
 	HttpsURLConnection con = getHTTPClient(url);
@@ -315,16 +318,16 @@ public class PdfFillerAPIClient implements ApiClient {
 	try {		
       // Send post request
       con.setDoOutput(true);
-      OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-      wr.write(body);
-      wr.flush();
-      wr.close();         
+      OutputStream os = con.getOutputStream();
+      os.write(body);
+      os.flush();
+      os.close();
       responseCode = con.getResponseCode();
       responseHeaders = con.getHeaderFields();      
       InputStream stream = con.getErrorStream();
       if (stream == null) {
           stream = con.getInputStream();
-      }    	    
+      }
       in = new BufferedReader(new InputStreamReader(stream));
       String inputLine;
       responseBody = new StringBuffer();
@@ -341,12 +344,16 @@ public class PdfFillerAPIClient implements ApiClient {
 		  in.close();
 	  } catch (IOException e) {}
     }
-	
+
     httpResponse.setBody(responseBody.toString());
     httpResponse.setCode(responseCode);
     httpResponse.setHeaders(responseHeaders);
     return httpResponse;
   }
+
+    private HttpResponse sendPost(String  body, String url) throws PdfFillerAPIException {
+        return sendPost(body.getBytes(), url);
+    }
   
   /**
    * @param url
