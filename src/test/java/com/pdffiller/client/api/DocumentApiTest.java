@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.pdffiller.client.PdfFillerAPIClient;
-import com.pdffiller.client.api.Document;
 import com.pdffiller.client.dto.DocumentInfo;
 import com.pdffiller.client.dto.DocumentListResponse;
 import com.pdffiller.client.dto.DocumentUploadRequest;
@@ -34,6 +33,13 @@ public class DocumentApiTest {
     assertTrue(documentCreateResponse.getId() != null);
   }
   
+  @Test
+  public void uploadDocumentMultipartTest() throws PdfFillerAPIException {
+    String sampleFile = "/home/srg_kas/projects/Testing/data/test.pdf";
+    documentCreateResponse = api.createDocumentMultipart(sampleFile);
+    assertTrue(documentCreateResponse.getId() != null);
+  }
+
   @Test
   public void getDocumentInfoTest() throws PdfFillerAPIException {   
     DocumentInfo response = api.getDocumentInfo(123456);

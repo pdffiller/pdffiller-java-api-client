@@ -13,12 +13,12 @@ public class DateResponse {
     this.date = date;
   }
 
-  public String getTimezone_type() {
+  public String getTimezoneType() {
     return timezone_type;
   }
 
-  public void setTimezone_type(String timezone_type) {
-    this.timezone_type = timezone_type;
+  public void setTimezoneType(String timezoneType) {
+    this.timezone_type = timezoneType;
   }
 
   public String getTimezone() {

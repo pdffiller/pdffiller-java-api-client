@@ -21,27 +21,27 @@ public abstract class ListResponse {
     this.total = total;
   }
 
-  public String getNext_page_url() {
+  public String getNextPageUrl() {
     return next_page_url;
   }
-  public void setNext_page_url(String next_page_url) {
-    this.next_page_url = next_page_url;
+  public void setNextPageUrl(String nextPageUrl) {
+    this.next_page_url = nextPageUrl;
   }
 
-  public String getPrev_page_url() {
+  public String getPrevPageUrl() {
     return prev_page_url;
   }
 
-  public void setPrev_page_url(String prev_page_url) {
-    this.prev_page_url = prev_page_url;
+  public void setPrevPageUrl(String prevPageUrl) {
+    this.prev_page_url = prevPageUrl;
   }
 
-  public Integer getCurrent_page() {
+  public Integer getCurrentPage() {
     return current_page;
   }
 
-  public void setCurrent_page(Integer current_page) {
-    this.current_page = current_page;
+  public void setCurrentPage(Integer currentPage) {
+    this.current_page = currentPage;
   }
 
   @Override
@@ -50,8 +50,8 @@ public abstract class ListResponse {
     sb.append("class " + getClass().getSimpleName() + " {\n");
     sb.append("    per_page: ").append(per_page.toString()).append("\n");
     sb.append("    total: ").append(total.toString()).append("\n");
-    sb.append("    next_page_url: ").append(next_page_url.toString()).append("\n");
-    sb.append("    prev_page_url: ").append(prev_page_url.toString()).append("\n");
+    sb.append("    next_page_url: ").append(next_page_url).append("\n");
+    sb.append("    prev_page_url: ").append(prev_page_url).append("\n");
     sb.append("    items: ").append(itemsToString()).append("\n");
     sb.append("    current_page: ").append(current_page.toString()).append("\n");
     sb.append("}");

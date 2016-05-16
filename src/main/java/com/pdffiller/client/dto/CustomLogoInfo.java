@@ -17,11 +17,11 @@ public class CustomLogoInfo {
     this.id = id;
   }
 
-  public DateResponse getCreated_at() {
+  public DateResponse getCreatedAt() {
     return created_at;
   }
 
-  public void setCreated_at(DateResponse created_at) {
+  public void setCreatedAt(DateResponse created_at) {
     this.created_at = created_at;
   }
 
@@ -49,12 +49,12 @@ public class CustomLogoInfo {
     this.filesize = filesize;
   }
 
-  public String getLogo_url() {
+  public String getLogoUrl() {
     return logo_url;
   }
 
-  public void setLogo_url(String logo_url) {
-    this.logo_url = logo_url;
+  public void setLogoUrl(String logoUrl) {
+    this.logo_url = logoUrl;
   }
 
   @Override

@@ -1,7 +1,6 @@
 package com.pdffiller.client.api;
 
 import com.pdffiller.client.PdfFillerAPIClient;
-import com.pdffiller.client.api.Token;
 import com.pdffiller.client.dto.TokenBody;
 import com.pdffiller.client.exception.PdfFillerAPIException;
 import com.pdffiller.client.json.Mapper;
