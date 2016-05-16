@@ -34,7 +34,7 @@ public class DocumentApiTest {
   }
   
   @Test
-  public void uploadDocumentMultipartTest() throws Exception {
+  public void uploadDocumentMultipartTest() throws PdfFillerAPIException {
     String sampleFile = "/home/srg_kas/projects/Testing/data/test.pdf";
     documentCreateResponse = api.createDocumentMultipart(sampleFile);
     assertTrue(documentCreateResponse.getId() != null);

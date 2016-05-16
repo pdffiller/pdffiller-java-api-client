@@ -10,7 +10,7 @@ import com.pdffiller.client.dto.DocumentListResponse;
 import com.pdffiller.client.dto.DocumentUploadRequest;
 import com.pdffiller.client.dto.Params;
 import com.pdffiller.client.exception.PdfFillerAPIException;
-import com.pdffiller.client.utils.MultipartHelper;
+import com.pdffiller.client.utils.MultipartMessageBuilder;
 
 public class Document {
   private ApiClient apiClient;
@@ -56,9 +56,9 @@ public class Document {
    */
   public DocumentInfo  createDocumentMultipart(String file) throws PdfFillerAPIException {
     List<Params> queryParams = null;
-    MultipartHelper multipartHelper = new MultipartHelper(file);
-    byte[] content = multipartHelper.getMessage();
-    HashMap<String, String> headerParams = multipartHelper.getHeaders();
+    MultipartMessageBuilder multipartMessageBuilder = new MultipartMessageBuilder(file);
+    byte[] content = multipartMessageBuilder.formRequest();
+    HashMap<String, String> headerParams = multipartMessageBuilder.getHeaders();
     String method = "POST";
     ((PdfFillerAPIClient)apiClient).setContentType(headerParams.get("Content-Type"));
     if (file == null) {
