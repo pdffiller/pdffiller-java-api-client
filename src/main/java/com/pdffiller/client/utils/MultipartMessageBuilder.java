@@ -2,10 +2,13 @@ package com.pdffiller.client.utils;
 
 import com.pdffiller.client.exception.PdfFillerAPIException;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
-import java.nio.file.Files;
+import java.net.URLConnection;
 import java.security.SecureRandom;
 import java.util.HashMap;
 
@@ -36,7 +39,10 @@ public class MultipartMessageBuilder {
     String mime = null;
 
     try {
-      mime = Files.probeContentType(file.toPath());
+//      mime = Files.probeContentType(file.toPath());
+      InputStream is = new BufferedInputStream(new FileInputStream(file));
+      mime = URLConnection.guessContentTypeFromStream(is);
+      is.close();
     } catch (IOException e) {
       e.printStackTrace();
       throw new PdfFillerAPIException(e.getMessage());
@@ -46,10 +52,14 @@ public class MultipartMessageBuilder {
   }
 
   private byte[] getFileContent() throws PdfFillerAPIException {
-    byte[] content = new byte[0];
-
+//    byte[] content = new byte[0];
+    FileInputStream fileInputStream=null;
+    byte[] content = new byte[(int) file.length()];
     try {
-      content = Files.readAllBytes(file.toPath());
+      fileInputStream = new FileInputStream(file);
+      fileInputStream.read(content);
+      fileInputStream.close();
+//      content = Files.readAllBytes(file.toPath());
     } catch (IOException e) {
       e.printStackTrace();
       throw new PdfFillerAPIException(e.getMessage());

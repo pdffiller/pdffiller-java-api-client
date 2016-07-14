@@ -1,13 +1,5 @@
 package com.pdffiller.client.dto;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigInteger;
-import java.nio.file.Files;
-import java.security.SecureRandom;
-
 public class DocumentUploadRequest   {
   private Object file = null;
   private static final String CRLF = "\r\n";
