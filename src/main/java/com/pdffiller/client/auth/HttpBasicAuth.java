@@ -1,9 +1,9 @@
 package com.pdffiller.client.auth;
 
-import java.util.Map;
-import java.io.UnsupportedEncodingException;
+import android.util.Base64;
 
-import javax.xml.bind.DatatypeConverter;
+import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
 public class HttpBasicAuth implements Authentication {
   private String username;
@@ -29,7 +29,7 @@ public class HttpBasicAuth implements Authentication {
   public Map<String, String> applyToParams(Map<String, String> headerParams) {
     String str = (username == null ? "" : username) + ":" + (password == null ? "" : password);
     try {
-      headerParams.put("Authorization", "Basic " + DatatypeConverter.printBase64Binary(str.getBytes("UTF-8")));
+      headerParams.put("Authorization", "Basic " + Base64.encodeToString(str.getBytes("UTF-8"), Base64.NO_CLOSE));
       return headerParams;
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);

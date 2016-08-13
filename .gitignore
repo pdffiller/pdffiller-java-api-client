@@ -12,6 +12,7 @@ local.properties
 
 # Build target
 target/
+build/
 
 .DS_Store
 
