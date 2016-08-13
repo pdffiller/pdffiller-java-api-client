@@ -3,7 +3,6 @@ package com.pdffiller.client.dto;
 
 public class CustomLogoInfo {
   private Long id = null;
-  private DateResponse created_at = null;
   private Integer width = null;
   private Integer height = null;
   private Long filesize = null;
@@ -15,14 +14,6 @@ public class CustomLogoInfo {
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public DateResponse getCreatedAt() {
-    return created_at;
-  }
-
-  public void setCreatedAt(DateResponse created_at) {
-    this.created_at = created_at;
   }
 
   public Integer getWidth() {
@@ -66,7 +57,6 @@ public class CustomLogoInfo {
     sb.append("    width: ").append(width.toString()).append("\n");
     sb.append("    height: ").append(height.toString()).append("\n");
     sb.append("    logo_url: ").append(logo_url.toString()).append("\n");
-    sb.append("    created_at: ").append(created_at.toString()).append("\n");
     sb.append("}");
     return sb.toString();
   }
